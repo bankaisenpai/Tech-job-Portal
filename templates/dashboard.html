@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard | Tech Job Portal</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <nav>
+    <h1>Welcome, {{ user }} 👋</h1>
+    <a href="{{ url_for('logout') }}">Logout</a>
+  </nav>
+
+  <section class="job-results">
+    <h2>Latest Jobs</h2>
+    <table>
+      <tr>
+        <th>Title</th><th>Company</th><th>Location</th><th>Posted</th><th>Link</th>
+      </tr>
+      {% for job in jobs %}
+      <tr>
+        <td>{{ job.Job_Title }}</td>
+        <td>{{ job.Company }}</td>
+        <td>{{ job.Location }}</td>
+        <td>{{ job.Posted }}</td>
+        <td><a href="{{ job.Job_Link }}" target="_blank">View</a></td>
+      </tr>
+      {% endfor %}
+    </table>
+  </section>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tech Job Portal</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <h1>Tech Job Portal</h1>
+    <nav>
+      <a href="{{ url_for('index') }}">Search</a>
+      {% if session.get('user_id') %}
+        <a href="{{ url_for('saved_jobs') }}">Saved Jobs</a>
+        <a href="{{ url_for('profile') }}">Profile</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+        <span class="user-info">👤 {{ session.get('username') }}</span>
+      {% else %}
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('register') }}">Register</a>
+      {% endif %}
+    </nav>
+  </header>
+
+  <!-- Search Bar -->
+  <section class="search-container">
+    <h2>Find Your Dream Tech Job</h2>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    
+    <form method="POST" action="{{ url_for('search') }}">
+      <input type="text" name="job_role" placeholder="Job role (e.g., Python Developer)" required>
+      <input type="text" name="location" placeholder="Location (e.g., India)" required>
+      
+      <div class="filter-container">
+        <select name="job_type">
+          <option value="">All Job Types</option>
+          <option value="Full-time">Full-time</option>
+          <option value="Part-time">Part-time</option>
+          <option value="Contract">Contract</option>
+          <option value="Internship">Internship</option>
+        </select>
+      </div>
+      
+      <button type="submit">🔍 Search Jobs</button>
+    </form>
+  </section>
+
+  <!-- Job Results -->
+  {% if jobs %}
+  <section class="jobs-container">
+    {% for job in jobs %}
+    <div class="job-card">
+      <h3>{{ job.Job_Title }}</h3> <!-- Job Title -->
+      <p><strong>Company:</strong> {{ job.Company or 'N/A' }}</p>
+      <p><strong>Location:</strong> {{ job.Location or 'N/A' }}</p>
+      <p><strong>Type:</strong> {{ job.Job_Type or 'N/A' }}</p>
+      <p><strong>Salary:</strong> {{ job.Salary or 'N/A' }}</p>
+      <a href="{{ job.Job_Link }}" target="_blank">View Job</a>
+    </div>
+    {% endfor %}
+  </section>
+  {% endif %}
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Tech Job Portal | Made with ❤️ by Rahul</p>
+  </footer>
+</body>
+</html>

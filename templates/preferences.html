@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preferences - Tech Job Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>Tech Job Portal</h1>
+        <nav>
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('saved_jobs') }}">Saved Jobs</a>
+            <a href="{{ url_for('profile') }}">Profile</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+            <span class="user-info">👤 {{ session.get('username') }}</span>
+        </nav>
+    </header>
+
+    <!-- Preferences Form -->
+    <section class="auth-container">
+        <div class="auth-box">
+            <h2>⚙️ Job Preferences</h2>
+            <p class="auth-subtitle">Set your job preferences for personalized alerts</p>
+            
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                {% for category, message in messages %}
+                  <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+            
+            <form method="POST" action="{{ url_for('preferences') }}">
+                <div class="form-group">
+                    <label for="job_role">Preferred Job Role</label>
+                    <input type="text" id="job_role" name="job_role" 
+                           placeholder="e.g., Python Developer, Data Scientist" 
+                           value="{{ user.preferred_role or '' }}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="location">Preferred Location</label>
+                    <input type="text" id="location" name="location" 
+                           placeholder="e.g., India, Bangalore, Remote" 
+                           value="{{ user.preferred_location or '' }}">
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <label>
+                        <input type="checkbox" name="email_alerts" 
+                               {{ 'checked' if user.email_alerts else '' }}>
+                        <span>Enable email alerts for new matching jobs</span>
+                    </label>
+                    <p class="form-help">We'll notify you when new jobs match your preferences</p>
+                </div>
+                
+                <button type="submit" class="auth-btn">💾 Save Preferences</button>
+                <a href="{{ url_for('profile') }}" class="back-btn" style="display: block; text-align: center; margin-top: 1rem;">Cancel</a>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Tech Job Portal | Made with ❤️ by Rahul</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - Tech Job Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>Tech Job Portal</h1>
+        <nav>
+            <a href="{{ url_for('landing') }}">Home</a>
+            <a href="{{ url_for('login') }}" class="cta-nav">Login</a>
+            <a href="{{ url_for('register') }}" class="cta-nav">Register</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">Find Your Dream Tech Job</h1>
+            <p class="hero-subtitle">Access thousands of tech job opportunities from top companies worldwide</p>
+            <div class="hero-buttons">
+                <a href="{{ url_for('register') }}" class="hero-btn primary">Get Started Free</a>
+                <a href="{{ url_for('login') }}" class="hero-btn secondary">Login</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <h2>Why Choose Our Portal?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🔍</div>
+                <h3>Smart Job Search</h3>
+                <p>Search across multiple job boards including Indeed and Glassdoor with a single query</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">💾</div>
+                <h3>Save Your Favorites</h3>
+                <p>Bookmark jobs you're interested in and access them anytime from your personal dashboard</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Personalized Alerts</h3>
+                <p>Set your preferences and get notified when new jobs match your criteria</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Real-Time Updates</h3>
+                <p>Fresh job listings updated regularly from top tech companies and startups</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🔐</div>
+                <h3>Secure & Private</h3>
+                <p>Your data is protected with industry-standard security practices</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Mobile Friendly</h3>
+                <p>Search and apply for jobs on any device, anywhere, anytime</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2>Ready to Start Your Job Hunt?</h2>
+        <p>Join thousands of developers finding their dream jobs</p>
+        <a href="{{ url_for('register') }}" class="hero-btn primary large">Create Free Account</a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Tech Job Portal | Made with ❤️ by Rahul</p>
+    </footer>
+</body>
+</html>

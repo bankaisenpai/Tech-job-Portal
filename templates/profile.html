@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Tech Job Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>Tech Job Portal</h1>
+        <nav>
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('saved_jobs') }}">Saved Jobs</a>
+            <a href="{{ url_for('profile') }}">Profile</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+            <span class="user-info">👤 {{ session.get('username') }}</span>
+        </nav>
+    </header>
+
+    <!-- Profile Container -->
+    <section class="auth-container" style="max-width: 700px;">
+        <div class="auth-box">
+            <h2>👤 My Profile</h2>
+            <p class="auth-subtitle">Manage your account and preferences</p>
+            
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                {% for category, message in messages %}
+                  <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+            
+            <div class="profile-info">
+                <div class="profile-item">
+                    <strong>Username:</strong>
+                    <span>{{ user.username }}</span>
+                </div>
+                
+                <div class="profile-item">
+                    <strong>Email:</strong>
+                    <span>{{ user.email }}</span>
+                </div>
+                
+                <div class="profile-item">
+                    <strong>Member Since:</strong>
+                    <span>{{ user.created_at.strftime('%B %d, %Y') if user.created_at else 'N/A' }}</span>
+                </div>
+                
+                <div class="profile-item">
+                    <strong>Saved Jobs:</strong>
+                    <span>{{ saved_count }} jobs</span>
+                </div>
+                
+                <div class="profile-item">
+                    <strong>Preferred Role:</strong>
+                    <span>{{ user.preferred_role or 'Not set' }}</span>
+                </div>
+                
+                <div class="profile-item">
+                    <strong>Preferred Location:</strong>
+                    <span>{{ user.preferred_location or 'Not set' }}</span>
+                </div>
+                
+                <div class="profile-item">
+                    <strong>Email Alerts:</strong>
+                    <span>{{ '✅ Enabled' if user.email_alerts else '❌ Disabled' }}</span>
+                </div>
+            </div>
+            
+            <div class="profile-actions">
+                <a href="{{ url_for('preferences') }}" class="auth-btn">⚙️ Edit Preferences</a>
+                <a href="{{ url_for('saved_jobs') }}" class="auth-btn" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%);">📋 View Saved Jobs</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Tech Job Portal | Made with ❤️ by Rahul</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Results - Tech Job Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>Tech Job Portal</h1>
+        <nav>
+            <a href="{{ url_for('index') }}">Search</a>
+            {% if session.get('user_id') %}
+                <a href="{{ url_for('saved_jobs') }}">Saved Jobs</a>
+                <a href="{{ url_for('profile') }}">Profile</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+                <span class="user-info">👤 {{ session.get('username') }}</span>
+            {% else %}
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('register') }}">Register</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>Results for "{{ role }}" in "{{ location }}"
+        {% if job_type_filter %}
+            <span style="color: #667eea;"> - {{ job_type_filter }} only</span>
+        {% endif %}
+        </h1>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        
+        {% if jobs %}
+        <div class="results-info">
+            <p>Found <strong>{{ jobs|length }}</strong> jobs matching your search</p>
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Company</th>
+                    <th>Location</th>
+                    <th>Type</th>
+                    <th>Salary</th>
+                    <th>Posted</th>
+                    <th>Summary</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for job in jobs %}
+                <tr style="--row-index: {{ loop.index }}">
+                    <td><strong>{{ job.Job_Title }}</strong></td>
+                    <td>{{ job.Company if job.Company and job.Company != 'N/A' else '🏢 Not Specified' }}</td>
+                    <td>{{ job.Location if job.Location and job.Location != 'N/A' and job.Location != 'None' else '📍 Remote/Not Specified' }}</td>
+                    <td><span class="badge">{{ job.Job_Type if job.Job_Type and job.Job_Type != 'N/A' else 'Full-time' }}</span></td>
+                    <td>{{ job.Salary if job.Salary and job.Salary != 'N/A' else '💰 Not Disclosed' }}</td>
+                    <td>{{ job.Posted[:10] if job.Posted and job.Posted != 'N/A' else 'Recently' }}</td>
+                    <td class="summary-cell">{{ job.Job_Summary[:100] if job.Job_Summary and job.Job_Summary != 'N/A' else 'No description available' }}...</td>
+                    <td>
+                        <a href="{{ job.Job_Link }}" target="_blank">View Job →</a>
+                        {% if session.get('user_id') %}
+                            <a href="{{ url_for('save_job', job_id=job.id) }}" class="save-job-btn">💾 Save</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <div class="no-results">
+                <p>😔 No jobs found yet.</p>
+                <p>Try searching with different keywords or location.</p>
+            </div>
+        {% endif %}
+        
+        <a href="{{ url_for('index') }}" class="back-btn">← Back to Search</a>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Tech Job Portal | Made with ❤️ by Rahul</p>
+    </footer>
+</body>
+</html>
