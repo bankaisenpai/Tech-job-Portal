@@ -85,7 +85,7 @@ This project uses environment variables to protect sensitive data. Never commit 
 
 ## 📸 Screenshots
 
-[Add screenshots here after deployment]
+<img width="960" height="481" alt="Screenshot 2025-10-21 173254" src="https://github.com/user-attachments/assets/645a0c52-82c3-4b8b-9b86-6e988b84f167" />
 
 ## 🚧 Future Enhancements
 
